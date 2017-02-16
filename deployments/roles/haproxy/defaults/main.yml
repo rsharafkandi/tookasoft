@@ -1,0 +1,27 @@
+---
+haproxy:
+  frontends:
+    - name: 'frontend1'
+      bind_port: '80'
+      mode: 'http'
+      default_backend: 'backend1'
+    - name: 'frontend2'
+      bind_port: '81'
+      mode: 'tcp'
+      default_backend: 'backend2'
+  backends:
+    - name: 'backend1'
+      balance_alg: 'roundrobin'
+      servers:
+        - name: 'server1'
+          address: 'address1'
+          port: '8080'
+        - name: 'server2'
+          address: 'address2'
+          port: '8080'
+    - name: 'backend2'
+      balance_alg: 'roundrobin'
+      servers:
+        - name: 'server3'
+          address: 'address3'
+          port: '8181'

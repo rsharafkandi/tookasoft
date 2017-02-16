@@ -1,0 +1,27 @@
+- name: Install haproxy on Jboss1 & Jboss2
+  hosts: jboss_servers
+  sudo: yes
+  sudo_user: root
+  vars: 
+    base:
+      http_proxy: "http://172.20.94.22:3128/"
+    haproxy:
+      frontends:
+        - name: 'jboss_frontend'
+          bind_port: '80'
+          mode: 'http'
+          default_backend: 'jboss_backend'
+      backends:
+        - name: 'jboss_backend'
+          balance_alg: 'roundrobin'
+          servers:
+            - name: 'Jboss1'
+              address: '172.20.94.146'
+              port: '8585'
+            - name: 'Jboss2'
+              address: '172.20.94.150'
+              port: '8585'
+
+  roles:
+    - base
+    - haproxy

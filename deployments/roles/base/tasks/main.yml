@@ -1,0 +1,11 @@
+---
+- name: insert yum proxy(http)
+  lineinfile: 
+    dest: /etc/yum.conf 
+    state: present 
+    regexp: "proxy=.*"
+    insertafter: EOF 
+    line: "proxy={{ base.http_proxy }}"
+  ignore_errors: yes
+  tags: "base"
+

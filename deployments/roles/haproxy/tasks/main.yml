@@ -1,0 +1,20 @@
+- name: Install necessary packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - 'haproxy'
+  tags: "haproxy"
+
+- name: Copy HAProxy configuration in place.
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+    validate: haproxy -f %s -c -q
+  notify: restart haproxy
+  tags: "haproxy"
+
+- name: Install HAProxy service
+  command: /sbin/chkconfig haproxy on
+  tags: "haproxy"
